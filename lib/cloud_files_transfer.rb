@@ -1,9 +1,7 @@
 require 'cloudfiles'
-require 'sidekiq'
 require "cloud_files_transfer/version"
 require 'cloud_files_transfer/client'
 require 'cloud_files_transfer/container'
-require 'cloud_files_transfer/workers/asset_transfer_worker'
 
 module CloudFilesTransfer
   class Railtie < Rails::Railtie
