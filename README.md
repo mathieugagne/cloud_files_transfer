@@ -18,11 +18,18 @@ Or install it yourself as:
 
 ## Usage
 
-    # Start sidekiq
+### Sidekiq
+
+You need to have Sidekiq running to speed up the process. One by one file transfer could take forever otherwise.
+Read more on sidekiq at https://github.com/mperham/sidekiq
+
     $ bundle exec sidekiq
 
-    # Launch transfer
-    $ rake assets:transfer
+### Launch transfer
+
+Have Rackspace username, api key and container name ready for both origin and destination folders.
+
+    $ rake cloud_files_assets:transfer
 
 ## Contributing
 
