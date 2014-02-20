@@ -3,18 +3,21 @@ namespace :cloud_files_assets do
   desc "Copy assets from one container to another container"
   task transfer: :environment do
 
-    username      = ask("Origin username:")
-    api_key       = ask("Origin API key:")
-    fog_directory = ask("Origin container name:")
+    config        = YAML.load_file("config/cloudfiles.yml")
+    username      = config["origin"]["username"] rescue ask("Origin username:")
+    api_key       = config["origin"]["api_key"] rescue ask("Origin API key:")
+    fog_directory = config["origin"]["fog_directory"] rescue ask("Origin container name:")
+
     @client_from  = CloudFilesTransfer::Client.new(
       username: username,
       api_key: api_key,
       fog_directory: fog_directory
     )
 
-    username      = ask("Destination username:")
-    api_key       = ask("Destination API key:")
-    fog_directory = ask("Destination container name:")
+    username      = config["destination"]["username"] rescue ask("Destination username:")
+    api_key       = config["destination"]["api_key"] rescue ask("Destination API key:")
+    fog_directory = config["destination"]["fog_directory"] rescue ask("Destination container name:")
+
     @client_to    = CloudFilesTransfer::Client.new(
       username: username,
       api_key: api_key,
@@ -25,8 +28,7 @@ namespace :cloud_files_assets do
     @container_to   = CloudFilesTransfer::Container.new(@client_to.container)
 
     @container_from.objects.each do |path|
-      object = @container_from.object(path)
-      @container_to.transfer(object)
+      CloudFilesTransfer::Transfer.copy!(@container_from, @container_to, path)
     end
 
     puts "Done."
