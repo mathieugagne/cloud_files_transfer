@@ -19,6 +19,17 @@ Or install it yourself as:
 ## Usage
 
 Have Rackspace username, api key and container name ready for both origin and destination folders.
+Or add a config yaml file to automatically pick the info from:
+
+    origin:
+      username: rackspace_username
+      api_key: 1234567890abcdefghijklmnopqrstuv
+      container: container_name
+
+    destination:
+      username: rackspace_username
+      api_key: 1234567890abcdefghijklmnopqrstuv
+      container: container_name
 
     $ rake cloud_files_assets:transfer
 

@@ -1,17 +1,17 @@
 module CloudFilesTransfer
   class Client
 
-    attr_accessor :username, :api_key, :fog_directory, :connection
+    attr_accessor :username, :api_key, :container_name, :connection
 
     def initialize(args={})
-      @username      = args.fetch(:username, credentials[:rackspace_username])
-      @api_key       = args.fetch(:api_key, credentials[:rackspace_api_key])
-      @fog_directory = args.fetch(:fog_directory, CarrierWave::Uploader::Base.fog_directory)
-      @connection    = args.fetch(:connection, create_connection)
+      @username       = args.fetch(:username, credentials[:rackspace_username])
+      @api_key        = args.fetch(:api_key, credentials[:rackspace_api_key])
+      @container_name = args.fetch(:container, CarrierWave::Uploader::Base.fog_directory)
+      @connection     = args.fetch(:connection, create_connection)
     end
 
-    def container(container_name=fog_directory)
-      @container ||= connection.container(container_name)
+    def container(name=container_name)
+      @container ||= connection.container(name)
     end
 
     private
