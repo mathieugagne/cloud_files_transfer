@@ -21,7 +21,7 @@ Or install it yourself as:
 Have Rackspace username, api key and container name ready for both origin and destination folders.
 Or add a config yaml file to automatically pick the info from:
 
-```
+```yaml
 # config/cloudfiles.yml
 origin:
   username: rackspace_username
