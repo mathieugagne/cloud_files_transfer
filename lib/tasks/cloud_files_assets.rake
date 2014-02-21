@@ -29,14 +29,26 @@ namespace :cloudfiles do
     )
 
     @container_from = @client_from.container
-    @container_to   = CloudFilesTransfer::Container.new(@client_to.container)
+    @container_to   = @client_to.container
     @assets = @container_from.objects
 
-    puts "Starting transfer. #{@assets.size} files to copy."
+    jobs_count = ENV['jobs'].try(:to_i) || 4
 
-    @assets.each do |path|
-      CloudFilesTransfer::Transfer.copy!(@container_from, @container_to, path)
+    puts "#{@assets.size} files to copy."
+    puts "Transfering #{jobs_count} files at a time. Here we go!"
+
+    @assets = @assets.in_groups(jobs_count)
+
+    Thread.abort_on_exception=true
+
+    threads = jobs_count.times.map do |i|
+      Thread.new(i) do |i|
+        @assets[i].each do |path|
+          CloudFilesTransfer::Transfer.copy!(@container_from, @container_to, path)
+        end
+      end
     end
+    threads.each {|t| t.join}
 
     puts "Done."
 

@@ -36,7 +36,11 @@ destination:
 
 Then launch the rake task to start the transfer. It doesn't matter where you do it from. It could be faster though if done from a Rackspace instance using service net (snet).
 
-    $ rake cloud_files_assets:transfer
+    $ rake cloudfiles:transfer
+
+By default, it will create 4 threads to transfer simultaneously. You can specify the amount of threads like so:
+
+    $ rake cloudfiles:transfer jobs=8
 
 ## Contributing
 
