@@ -19,7 +19,7 @@ module CloudFilesTransfer
 
     def create_connection
       c = CloudFiles::Connection.new(username: username, api_key: api_key, snet: snet)
-      puts "Connection established."
+      puts "Connection established.".colorize(:green)
       c
     end
 

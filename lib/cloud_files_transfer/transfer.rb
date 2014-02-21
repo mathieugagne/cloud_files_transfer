@@ -10,26 +10,48 @@ module CloudFilesTransfer
     end
 
     def self.copy!(origin, destination, path, args={})
-      return puts("#{path} skipped.") if destination.object_exists?(path)
+      return puts("#{path} skipped.".colorize(:light_blue)) if (destination.object_exists?(path) rescue false)
       new(origin, destination, path, args).copy
     end
 
     def copy
       retries = 0
-      puts "Saving #{path}"
       begin
         origin_object = origin.object(path)
         desintation_object = destination.create_object(path)
         desintation_object.write(origin_object.data)
+        success("#{path} saved")
       rescue Exception
         retries = retries + 1
-        unless retries > 5
-          puts "#{path} failed. Retry"
+        unless retries > 2
+          warn("#{path} failed. Retry")
           retry
         else
-          puts "#{path} failed."
+          fail("#{path} failed.")
         end
       end
+    end
+
+    private
+
+    def info message
+      colored_print(message, :light_blue)
+    end
+
+    def warn message
+      colored_print(message, :yellow)
+    end
+
+    def success message
+      colored_print(message, :green)
+    end
+
+    def fail message
+      colored_print(message, :red)
+    end
+
+    def colored_print message, color
+      puts(message.colorize(color))
     end
 
   end
