@@ -1,4 +1,4 @@
-namespace :cloud_files_assets do
+namespace :cloudfiles do
 
   desc "Copy assets from one container to another container"
   task transfer: :environment do
