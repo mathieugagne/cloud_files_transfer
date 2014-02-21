@@ -10,7 +10,7 @@ module CloudFilesTransfer
     end
 
     def self.copy!(origin, destination, path, args={})
-      return skip_message(path) if destination.object_exists?(path)
+      return puts("#{path} skipped.") if destination.object_exists?(path)
       new(origin, destination, path, args).copy
     end
 
@@ -30,12 +30,6 @@ module CloudFilesTransfer
           puts "#{path} failed."
         end
       end
-    end
-
-    private
-
-    def skip_message path
-      puts "#{path} skipped."
     end
 
   end
