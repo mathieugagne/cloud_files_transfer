@@ -1,4 +1,5 @@
 require 'cloudfiles'
+require 'colorize'
 require 'yaml'
 require "cloud_files_transfer/version"
 require 'cloud_files_transfer/client'
